@@ -6,6 +6,7 @@ import com.lll.springframework.beans.PropertyValues;
 import com.lll.springframework.beans.factory.config.BeanDefinition;
 import com.lll.springframework.beans.factory.config.BeanReference;
 import com.lll.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.lll.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import com.lll.springframework.core.io.DefaultResourceLoader;
 import com.lll.springframework.core.io.Resource;
 import com.lll.springframework.test.bean.UserDao;
@@ -36,18 +37,10 @@ public class ApiTest {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
         // 2. UserDao 注册
-        beanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
 
-        // 3. UserService 设置属性[uId, userDao]
-        PropertyValues propertyValues = new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("uId", "10001"));
-        propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
-
-        // 4. UserService 注入 Bean
-        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
-        beanFactory.registerBeanDefinition("userService", beanDefinition);
-
-        // 3. 第一次获取 bean
+        // 3. 获取 Bean 对象调用方法
         UserService userService = (UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
     }
@@ -70,6 +63,9 @@ public class ApiTest {
 
     @Test
     public void test_url() throws IOException {
-        Resource resource = resourceLoader.getResource("https://www.baidu.com");
+        Resource resource = resourceLoader.getResource("https://github.com/CLeiYF/simple-spring-framework/blob/main/src/test/resources/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        System.out.println(content);
     }
 }
