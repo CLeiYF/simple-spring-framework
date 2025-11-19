@@ -4,7 +4,6 @@ import com.lll.springframework.beans.BeansException;
 import com.lll.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.lll.springframework.beans.factory.config.BeanDefinition;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -54,5 +53,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
             throw new BeansException("No bean named '" + beanName + "' is defined");
         }
         return beanDefinition;
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 }

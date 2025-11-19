@@ -9,7 +9,7 @@ import java.util.Map;
  * @description
  * @date 2025/11/12 13:41
  **/
-public interface ListableBeanFactory {
+public interface ListableBeanFactory extends BeanFactory {
 
     /**
      * 按照类型返回 Bean 实例
