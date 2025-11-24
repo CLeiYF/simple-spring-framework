@@ -5,12 +5,14 @@ import com.lll.springframework.beans.factory.*;
 import com.lll.springframework.context.ApplicationContext;
 import com.lll.springframework.context.ApplicationContextAware;
 
+import java.util.Random;
+
 /**
  * @author lyf
  * @description
  * @date 2025/11/11 17:16
  **/
-public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService implements IUserService, InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
 
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
@@ -20,8 +22,25 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     private String location;
     private IUserDao userDao;
 
+    @Override
     public String queryUserInfo() {
-        return userDao.queryUserName(uId) + ", 公司：" + company + ", 地点:" + location;
+//        return userDao.queryUserName(uId) + ", 公司：" + company + ", 地点:" + location;
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "zeus，100001，武汉";
+    }
+
+    @Override
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "注册用户：" + userName + " success！";
     }
 
     @Override
