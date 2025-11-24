@@ -13,4 +13,8 @@
 
 <!--    <bean class="com.lll.springframework.test.common.MyBeanPostProcessor"/>-->
 <!--    <bean class="com.lll.springframework.test.common.MyBeanFactoryPostProcessor"/>-->
+
+    <bean class="com.lll.springframework.test.event.ContextRefreshedEventListener"/>
+    <bean class="com.lll.springframework.test.event.ContextClosedEventListener"/>
+    <bean class="com.lll.springframework.test.event.CustomerEventListener"/>
 </beans>

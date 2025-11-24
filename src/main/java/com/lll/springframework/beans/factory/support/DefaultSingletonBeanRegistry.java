@@ -5,8 +5,10 @@ import com.lll.springframework.beans.factory.DisposableBean;
 import com.lll.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lyf
@@ -17,16 +19,17 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     protected static final Object NULL_OBJECT = new Object();
 
-    private Map<String, Object> singletonObjects = new HashMap<>();
+    private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
 
-    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
+    private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
         return singletonObjects.get(beanName);
     }
 
-    protected void addSingleton(String beanName, Object singletonObject) {
+    @Override
+    public void registerSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
     }
 
@@ -34,7 +37,6 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         disposableBeans.put(beanName, bean);
     }
 
-    @Override
     public void destroySingletons() {
         Set<String> keySet = this.disposableBeans.keySet();
         Object[] disposableBeanNames = keySet.toArray();

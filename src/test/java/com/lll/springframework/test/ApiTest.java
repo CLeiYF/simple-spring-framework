@@ -14,6 +14,7 @@ import com.lll.springframework.test.bean.UserDao;
 import com.lll.springframework.test.bean.UserService;
 import com.lll.springframework.test.common.MyBeanFactoryPostProcessor;
 import com.lll.springframework.test.common.MyBeanPostProcessor;
+import com.lll.springframework.test.event.CustomerEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jol.info.ClassLayout;
@@ -136,5 +137,13 @@ public class ApiTest {
         // 2. 调用代理方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         System.out.println(userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_event() {
+        // 1. 初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new CustomerEvent(applicationContext, 123L, "成功"));
+        applicationContext.registerShutdownHook();
     }
 }
